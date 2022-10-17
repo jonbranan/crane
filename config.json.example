@@ -1,0 +1,13 @@
+{
+    "host": "192.168.1.1",
+    "port": 9443,
+    "username": "admin",
+    "password": "admin",
+    "endpoint": 1,
+    "log_level": "INFO",
+    "log_path": "./crn.log",
+    "use_pushover": false,
+    "use_log": true,
+    "po_key": "",
+    "po_token": ""
+}
