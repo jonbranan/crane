@@ -9,5 +9,6 @@
     "use_pushover": false,
     "use_log": true,
     "po_key": "",
-    "po_token": ""
+    "po_token": "",
+    "start_containers": false
 }

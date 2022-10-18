@@ -1,6 +1,6 @@
 import pushover
 from json import load
-from cclient import c_auth, c_get_containers
+from cclient import c_auth, c_get_containers, c_start_container
 from clogging import *
 import time
 import datetime
@@ -14,6 +14,9 @@ class Crn:
         self.st = datetime.datetime.now()
         with open('./config.json') as c:
             self.config = load(c)
+        with open('./containers.json') as cts:
+            self.containers = load(cts)
+        self.observed_containers = self.containers.values()
         # Create the api object
         self.cc = requests
         # Create the logging and pushover objects
@@ -32,6 +35,7 @@ class Crn:
         self.username = self.config["username"]
         self.password = self.config["password"]
         self.endpoint = self.config["endpoint"]
+        self.start_containers = self.config["start_containers"]
         cont_log(self)
         cont_notify(self)
         self.t = time

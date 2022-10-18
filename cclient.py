@@ -12,3 +12,8 @@ def c_start_container(req_obj, host, port, jwt, endpoint, cid):
     url = f'https://{host}:{port}/api/endpoints/{endpoint}/docker/containers/{cid}/start'
     c_start_container_response = req_obj.post(url, headers={"Authorization": f"Bearer {jwt}"},verify=False)
     return c_start_container_response.status_code
+
+def c_stop_container(req_obj, host, port, jwt, endpoint, cid):
+    url = f'https://{host}:{port}/api/endpoints/{endpoint}/docker/containers/{cid}/stop'
+    c_start_container_response = req_obj.post(url, headers={"Authorization": f"Bearer {jwt}"},verify=False)
+    return c_start_container_response.status_code
