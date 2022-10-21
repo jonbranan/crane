@@ -1,7 +1,8 @@
 import pushover
 from json import load
-from cclient import c_auth, c_get_containers, c_start_container
+from cclient import *
 from clogging import *
+from cprocess import *
 import time
 import datetime
 import logging
@@ -45,8 +46,12 @@ class Crn:
             self.tl.info('Authenticating.')
             self.jwt = c_auth(self.cc, self.host, self.port, self.username, self.password)
             self.tl.info('Authenticated successfully.')
-            self.cont_obj = c_get_containers(self.cc, self.host, self.port, self.jwt)
-            self.tl.info('Collected container list.')
+            self.cont_obj = c_get_containers(self.cc, self.host, self.port, self.jwt, self.endpoint)
+            self.tl.info('Collected container data.')
+            self.cont_list = build_cont_list(self.cont_obj, self.observed_containers)
+            self.tl.info('Building container list.')
+            self.process_cont_list_response = process_cont_list(self.cont_list, c_start_container, self.cc, self.host, self.port, self.jwt, self.endpoint)
+
         except requests.exceptions.RequestException as e:
             self.tl.exception(e)
             self.po.send_message(e, title="crane API ERROR")
