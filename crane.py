@@ -1,5 +1,4 @@
 import pushover
-from json import load
 from cclient import *
 from clogging import *
 from cprocess import *
@@ -7,36 +6,39 @@ import time
 import datetime
 import logging
 import requests
+from tomllib import load
 
 class Crn:
     def __init__(self):
         """Main object, should be calling functions from qlist.py, qlogging.py and qprocess.py"""
         # Open the config. Needs a json file with the data in config.json.example
         self.st = datetime.datetime.now()
-        with open('./config.json') as c:
+        with open('./config.toml', 'rb') as c:
             self.config = load(c)
-        with open('./containers.json') as cts:
-            self.containers = load(cts)
-        self.observed_containers = self.containers.values()
         # Create the api object
         self.cc = requests
         # Create the logging and pushover objects
         self.tl = logging
         self.po = pushover
-        
-        # Init config.json
-        self.use_pushover = self.config["use_pushover"]
-        self.use_log = self.config["use_log"]
-        self.po_key = self.config["po_key"]
-        self.po_token = self.config["po_token"]
-        self.log_path = self.config["log_path"]
-        self.log_level = self.config["log_level"]
-        self.host = self.config["host"]
-        self.port = self.config["port"]
-        self.username = self.config["username"]
-        self.password = self.config["password"]
-        self.endpoint = self.config["endpoint"]
-        self.start_containers = self.config["start_containers"]
+        #Load settings from config.toml
+        #portainer
+        self.host = self.config["portainer"]["host"]
+        self.port = self.config["portainer"]["port"]
+        self.username = self.config["portainer"]["username"]
+        self.password = self.config["portainer"]["password"]
+        self.endpoint = self.config["portainer"]["endpoint"]
+        self.start_containers = self.config["portainer"]["start_containers"]
+        #logging
+        self.use_log = self.config["logging"]["use_log"]
+        self.log_path = self.config["logging"]["log_path"]
+        self.log_level = self.config["logging"]["log_level"]
+        #pushover
+        self.use_pushover = self.config["pushover"]["use_pushover"]
+        self.po_key = self.config["pushover"]["po_key"]
+        self.po_token = self.config["pushover"]["po_token"]
+        #containers
+        self.observed_containers = self.config["containers"].values()
+
         cont_log(self)
         cont_notify(self)
         self.t = time

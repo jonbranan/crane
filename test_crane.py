@@ -1,19 +1,19 @@
 import unittest
 import requests
-from json import load
+from tomllib import load
 from cclient import c_auth, c_get_containers, c_start_container, c_stop_container
 from cprocess import build_cont_list, process_cont_list, build_full_cont_list, process_cont_status
 unittest.TestLoader.sortTestMethodsUsing = None
 
 class TestCrane(unittest.TestCase):
     def setUp(self):
-        with open('./config.json') as c:
+        with open('./config.toml', 'rb') as c:
             self.config = load(c)
-        self.host = self.config["host"]
-        self.port = self.config["port"]
-        self.username = self.config["username"]
-        self.password = self.config["password"]
-        self.endpoint = self.config["endpoint"]
+        self.host = self.config["portainer"]["host"]
+        self.port = self.config["portainer"]["port"]
+        self.username = self.config["portainer"]["username"]
+        self.password = self.config["portainer"]["password"]
+        self.endpoint = self.config["portainer"]["endpoint"]
         self.cid = 'aa5b217ca6217fd9d268396039da69ea9e4a5aff381b3dceb71edb5a1f4d429d'
         self.req_obj = requests
         self.hypercare_containers = ['hello-world']
