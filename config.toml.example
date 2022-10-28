@@ -1,0 +1,20 @@
+[portainer]
+host = "192.168.1.11"
+port = 9443
+username = "a"
+password = "a"
+endpoint = 1
+start_containers = true
+
+[logging]
+use_log = true
+log_level = "DEBUG"
+log_path = "./crn.log"
+
+[pushover]
+use_pushover = false
+po_key = ""
+po_token = ""
+
+[containers]
+qbit = "qbittorrent"
