@@ -10,12 +10,12 @@ def cont_notify(self):
     """Seting up to use pushover, if self.use_pushover is set to true and 
     if valid self.po_key and self.po_token is provided in the config file"""
     if self.use_pushover:
-        self.poc = self.po.Client(self.po_key, api_token=self.po_token)
+        self.poc = self.po.Pushover(self.po_token)
 
 def cont_notify_summary(self):
     """Main notification method when the app is used in an automated fashion"""
-    self.poc.send_message(f"   \
-    {self.extm}", title="--- qbit-maid summary ---")
+    self.poc.message(self.po_key,f"   \
+    {self.extm}", title="--- crane summary ---")
 
 def list_first_cont(self, index=0):
     """Only lists the first torrent"""
