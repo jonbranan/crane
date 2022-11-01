@@ -1,10 +1,14 @@
 def cont_log(self):
     """Setting up the log file, if self.use_log is set to true and self.loglevel is DEBUG OR INFO"""
     if self.use_log:
-        if self.log_level == 'DEBUG':
+        if self.log_level.lower() == 'debug':
             self.tl.basicConfig(filename=self.log_path, format='%(asctime)s:%(levelname)s:%(message)s', encoding='utf-8', datefmt='%m/%d/%Y %I:%M:%S %p',level=self.tl.DEBUG)
-        elif self.log_level == 'INFO':
+        elif self.log_level.lower() == 'info':
             self.tl.basicConfig(filename=self.log_path, format='%(asctime)s:%(levelname)s:%(message)s', encoding='utf-8', datefmt='%m/%d/%Y %I:%M:%S %p',level=self.tl.INFO)
+        elif self.log_level.lower() == 'warn':
+            self.tl.basicConfig(filename=self.log_path, format='%(asctime)s:%(levelname)s:%(message)s', encoding='utf-8', datefmt='%m/%d/%Y %I:%M:%S %p',level=self.tl.WARN)
+        elif self.log_level.lower() == 'error':
+            self.tl.basicConfig(filename=self.log_path, format='%(asctime)s:%(levelname)s:%(message)s', encoding='utf-8', datefmt='%m/%d/%Y %I:%M:%S %p',level=self.tl.ERROR)
 
 def cont_notify(self):
     """Seting up to use pushover, if self.use_pushover is set to true and 

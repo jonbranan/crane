@@ -54,7 +54,7 @@ class Crn:
             self.tl.debug('Building container list.')
             self.process_cont_list_response = process_cont_list(self.cont_list, c_start_container, self.cc, self.host, self.port, self.jwt, self.endpoint)
             if self.process_cont_list_response:
-                self.tl.info(f'Started: [{self.process_cont_list_response}]')
+                self.tl.warn(f'Started: [{self.process_cont_list_response}]')
 
         except requests.exceptions.RequestException as e:
             self.tl.exception(e)
