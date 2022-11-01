@@ -14,8 +14,9 @@ def cont_notify(self):
 
 def cont_notify_summary(self):
     """Main notification method when the app is used in an automated fashion"""
-    self.poc.message(self.po_key,f"   \
-    {self.extm}", title="--- crane summary ---")
+    if self.use_pushover:
+        self.poc.message(self.po_key,f"   \
+        {self.extm}", title="--- crane summary ---")
 
 def list_first_cont(self, index=0):
     """Only lists the first torrent"""
