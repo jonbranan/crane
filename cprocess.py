@@ -20,7 +20,7 @@ def process_cont_list(full_cont_list, start_cont_fn, req_obj, host, port, jwt, e
     if full_cont_list:
         for container in full_cont_list:
             start_cont_fn(req_obj, host, port, jwt, endpoint, container["Id"])
-        return True
+            return container["Names"][0].lstrip("/")
 
 def process_cont_status(obj):
     if not obj:
