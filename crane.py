@@ -58,7 +58,7 @@ class Crn:
 
         except requests.exceptions.RequestException as e:
             self.tl.exception(e)
-            self.po.send_message(e, title="crane API ERROR")
+            self.poc.message(self.po_key, e, title="crane API ERROR")
 
         #Main process block
         self.et = datetime.datetime.now()
