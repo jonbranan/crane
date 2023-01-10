@@ -9,4 +9,4 @@ po_token = config["pushover"]["po_token"]
 
 message = "hello"
 
-pushover.Pushover(po_token).message(po_key, message, title="--- crane summary ---")
+# pushover.Pushover(po_token).message(po_key, message, title="--- crane summary ---")

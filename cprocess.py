@@ -3,8 +3,9 @@ def build_cont_list(obj, hypercare_containers):
     cont_list = []
     for i, c in enumerate(obj):
         if c["State"].lower() != "running":
-            if c["Names"][0].lstrip("/") in hypercare_containers:
-                cont_list.append(c)
+            continue
+        if c["Names"][0].lstrip("/") in hypercare_containers:
+            cont_list.append(c)
     return cont_list
 
 def build_full_cont_list(obj, hypercare_containers):
