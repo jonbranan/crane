@@ -1,7 +1,7 @@
 import unittest
 import requests
 from tomllib import load
-from cclient import c_auth, c_get_containers, c_start_container, c_stop_container
+from cclient import c_auth, c_get_containers, c_start_container, c_stop_container, c_get_filtered_containers
 from cprocess import build_cont_list, process_cont_list, build_full_cont_list, process_cont_status
 unittest.TestLoader.sortTestMethodsUsing = None
 
@@ -17,14 +17,19 @@ class TestCrane(unittest.TestCase):
         self.cid = 'aa5b217ca6217fd9d268396039da69ea9e4a5aff381b3dceb71edb5a1f4d429d'
         self.req_obj = requests
         self.hypercare_containers = ['hello-world']
+        #self.status_filters = ["paused","dead","created","exited","removing","restarting","created"]
         self.jwt = c_auth(self.req_obj, self.host, self.port, self.username, self.password)
         self.cont_obj = c_get_containers(self.req_obj, self.host, self.port, self.jwt, self.endpoint)
+        #self.cont_obj_f = c_get_filtered_containers(self.req_obj, self.host, self.port, self.jwt, self.endpoint,self.hypercare_containers,self.status_filters)
 
     def test_c_auth(self):
         self.assertTrue(self.jwt, "No JWT returned by cauth.")
 
     def test_c_get_containers(self):
         self.assertTrue(self.cont_obj, "No cont object returned by c_get_containers.")
+
+    def test_c_get_containers_f(self):
+        self.assertTrue(self.cont_obj_f, "No cont object returned by c_get_containers.")
 
     def test_a_is_hypercare_container_status(self):
         self.cont_full_list = build_full_cont_list(self.cont_obj, self.hypercare_containers)

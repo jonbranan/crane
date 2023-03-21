@@ -50,7 +50,7 @@ class Crn:
             self.tl.info('Authenticated successfully.')
             self.cont_obj = c_get_containers(self.cc, self.host, self.port, self.jwt, self.endpoint)
             self.tl.debug('Collected container data.')
-            self.cont_list = build_cont_list(self.cont_obj, self.observed_containers)
+            self.cont_list = build_full_cont_list(self.cont_obj, self.observed_containers)
             self.tl.debug('Building container list.')
             self.process_cont_list_response = process_cont_list(self.cont_list, c_start_container, self.cc, self.host, self.port, self.jwt, self.endpoint)
             if self.process_cont_list_response:
