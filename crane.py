@@ -1,4 +1,5 @@
 import pushover
+import json
 from cclient import *
 from clogging import *
 from cprocess import *
@@ -20,12 +21,12 @@ class Crn:
         # Create the logging and pushover objects
         self.tl = logging
         self.po = pushover
+        self.jn = json
         #Load settings from config.toml
         #portainer
         self.host = self.config["portainer"]["host"]
         self.port = self.config["portainer"]["port"]
-        self.username = self.config["portainer"]["username"]
-        self.password = self.config["portainer"]["password"]
+        self.access_token = self.config["portainer"]["access_token"]
         self.endpoint = self.config["portainer"]["endpoint"]
         self.start_containers = self.config["portainer"]["start_containers"]
         #logging
@@ -37,7 +38,8 @@ class Crn:
         self.po_key = self.config["pushover"]["po_key"]
         self.po_token = self.config["pushover"]["po_token"]
         #containers
-        self.observed_containers = self.config["containers"].values()
+        self.observed_containers = list(self.config["containers"].values())
+        self.container_statuses = ["paused","dead","created","exited","removing","restarting","created"]
 
         cont_log(self)
         cont_notify(self)
@@ -45,16 +47,13 @@ class Crn:
 
         #logging in
         try:
-            self.tl.debug('Authenticating.')
-            self.jwt = c_auth(self.cc, self.host, self.port, self.username, self.password)
-            self.tl.info('Authenticated successfully.')
-            self.cont_obj = c_get_containers(self.cc, self.host, self.port, self.jwt, self.endpoint)
+            # c_get_filtered_containers(req_obj, j_obj, host, port, access_token, endpoint, containers, statuses)
+            self.cont_obj = c_get_filtered_containers(self.cc, self.jn, self.host, self.port, self.access_token, self.endpoint,self.observed_containers,self.container_statuses)
+            # print(self.cont_obj)
             self.tl.debug('Collected container data.')
-            self.cont_list = build_full_cont_list(self.cont_obj, self.observed_containers)
-            self.tl.debug('Building container list.')
-            self.process_cont_list_response = process_cont_list(self.cont_list, c_start_container, self.cc, self.host, self.port, self.jwt, self.endpoint)
+            self.process_cont_list_response = process_cont_list(self.cont_obj, c_start_container, self.cc, self.host, self.port, self.access_token, self.endpoint)
             if self.process_cont_list_response:
-                self.tl.warning(f'Started: [{self.process_cont_list_response}]')
+                self.tl.warning(f'Started: {self.process_cont_list_response}')
 
         except requests.exceptions.RequestException as e:
             self.tl.exception(e)
