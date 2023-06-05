@@ -1,0 +1,1 @@
+0 1 * * * . /etc/environment; python /opt/crane.py >> /logfile
