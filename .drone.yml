@@ -13,7 +13,6 @@ steps:
     repo: git.jbranan.com/jblu/crane
     tags:
     - latest
-    - main
   when:
     branch:
       - main
