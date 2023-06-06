@@ -10,20 +10,17 @@ def apprise_notify(req_obj, host, port, aurls, title, body):
 
 class AppriseClient:
     def __init__(self):
-        self.config = ''
-        try:
-            if os.get["DOCKER"]:
-                self.host = os.environ["host"]
-                self.port = os.environ["port"]
-                self.aurls = os.environ["aurls"]
-                self.title = os.environ["title"]
-                self.body = os.environ["body"]
-            if os.environ["toml_path"]:
-                config_file_path=os.environ["toml_path"]
-                with open(config_file_path, 'rb') as c:
-                    self.config = load(c)
-        except:
-            KeyError
+        if os.getenv("DOCKER"):
+            self.host = os.getenv("host")
+            self.port = os.getenv("port")
+            self.aurls = os.getenv("aurls")
+            self.title = os.getenv("title")
+            self.body = os.getenv("body")
+        if os.getenv("toml_path"):
+            config_file_path=os.getenv("toml_path")
+            with open(config_file_path, 'rb') as c:
+                self.config = load(c)
+
         if os.path.exists('./config.toml'):
             config_file_path = './config.toml'
             with open(config_file_path, 'rb') as c:
