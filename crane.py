@@ -54,6 +54,8 @@ class Crn:
         #containers
         self.observed_containers = list(self.config["containers"].values())
         self.container_statuses = ["paused","dead","created","exited","removing","restarting","created"]
+        #healthcheck
+        self.healthcheck_url = self.config["healthcheck"]["healthcheck_url"]
 
         cont_log(self)
         cont_notify(self)
@@ -80,6 +82,8 @@ class Crn:
             cont_notify_summary(self, apprise_notify, requests)
         if self.use_apprise:
             cont_notify_summary(self, apprise_notify, requests)
+        send_ping(self, requests, self.healthcheck_url)
+        
 # Run
 if  __name__== "__main__":
     Crn()
