@@ -16,11 +16,15 @@ def cont_notify(self):
     if self.use_pushover:
         self.poc = self.po.Pushover(self.po_token)
 
-def cont_notify_summary(self):
+def cont_notify_summary(self, app_obj, req_obj):
     """Main notification method when the app is used in an automated fashion"""
+    title = "--- crane summary ---"
+    body = f'{self.extm}'
     if self.use_pushover:
-        self.poc.message(self.po_key,f"   \
-        {self.extm}", title="--- crane summary ---")
+        #TODO figure out why the flip it thinks its getting 4 pos args
+        self.poc.message(self.po_key, message=body, title=title)
+    if self.use_apprise:
+        app_obj(req_obj, self.apprise_host, self.apprise_port, self.apprise_aurls, title, body)
 
 def list_first_cont(self, index=0):
     """Only lists the first torrent"""
@@ -35,4 +39,6 @@ def get_script_runtime(self):
     if self.use_log:
         self.tl.info(f'Execution time: [{elapsed_time}]')
     if self.use_pushover:
+        self.extm = f"Execution time: [{elapsed_time}]"
+    if self.use_apprise:
         self.extm = f"Execution time: [{elapsed_time}]"
