@@ -10,7 +10,7 @@ steps:
     username: jblu
     password: 
       from_secret: gittea_drone
-    repo: jblu/crane
+    repo: git.jbranan.com/jblu/crane
     tags:
     - latest
     - main
