@@ -9,16 +9,17 @@ import logging
 import requests
 from tomllib import load
 import os
+from AppriseClient import apprise_notify
 
 class Crn:
     def __init__(self):
         """Main object, should be calling functions from qlist.py, qlogging.py and qprocess.py"""
         # Open the config. Needs a json file with the data in config.json.example
         self.st = datetime.datetime.now()
-
-        config_file_path=os.environ["toml_path"]
-        with open(config_file_path, 'rb') as c:
-            self.config = load(c)
+        if os.getenv("toml_path"):
+            config_file_path=os.getenv("toml_path")
+            with open(config_file_path, 'rb') as c:
+                self.config = load(c)
         if os.path.exists('./config.toml'):
             config_file_path = './config.toml'
             with open(config_file_path, 'rb') as c:
@@ -45,6 +46,11 @@ class Crn:
         self.use_pushover = self.config["pushover"]["use_pushover"]
         self.po_key = self.config["pushover"]["po_key"]
         self.po_token = self.config["pushover"]["po_token"]
+        #apprise
+        self.use_apprise = self.config["apprise"]["use_apprise"]
+        self.apprise_host = self.config["apprise"]["host"]
+        self.apprise_port = self.config["apprise"]["port"]
+        self.apprise_aurls = self.config["apprise"]["aurls"]
         #containers
         self.observed_containers = list(self.config["containers"].values())
         self.container_statuses = ["paused","dead","created","exited","removing","restarting","created"]
@@ -71,7 +77,9 @@ class Crn:
         self.et = datetime.datetime.now()
         get_script_runtime(self)
         if self.use_pushover:
-            cont_notify_summary(self)
+            cont_notify_summary(self, apprise_notify, requests)
+        if self.use_apprise:
+            cont_notify_summary(self, apprise_notify, requests)
 # Run
 if  __name__== "__main__":
     Crn()
