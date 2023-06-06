@@ -1,0 +1,19 @@
+kind: pipeline
+name: default
+
+steps:
+- name: docker
+  image: plugins/docker
+  settings:
+    registry: git.jbranan.com
+    dry_run: true
+    username: jblu
+    password: 
+      from_secret: gittea_drone
+    repo: jblu/crane
+    tags:
+    - latest
+    - main
+  when:
+    branch:
+      - main
