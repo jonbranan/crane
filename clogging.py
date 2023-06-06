@@ -42,3 +42,9 @@ def get_script_runtime(self):
         self.extm = f"Execution time: [{elapsed_time}]"
     if self.use_apprise:
         self.extm = f"Execution time: [{elapsed_time}]"
+
+def send_ping(self, req_obj, healthcheck_url):
+    try:
+        req_obj.get(healthcheck_url, timeout=10)
+    except req_obj.RequestException as e:
+        self.tl.info(f"Ping failed: {e}")

@@ -12,7 +12,7 @@ class AppriseClient:
     def __init__(self):
         self.config = ''
         try:
-            if os.environ["DOCKER"]:
+            if os.get["DOCKER"]:
                 self.host = os.environ["host"]
                 self.port = os.environ["port"]
                 self.aurls = os.environ["aurls"]
