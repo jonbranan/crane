@@ -10,6 +10,7 @@ import requests
 from tomllib import load
 import os
 from AppriseClient import apprise_notify
+requests.packages.urllib3.disable_warnings()
 
 class Crn:
     def __init__(self):
