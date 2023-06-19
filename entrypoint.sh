@@ -1,5 +1,10 @@
 #!/bin/sh
+CRON_CONFIG_FILE="/opt/crontab"
 
-printenv | grep -v "no_proxy" >> /etc/environment
+# CRON
+get_env CRON
+CRON="${CRON:-"5 * * * *"}"
 
-crond -f
+echo "${CRON} python /opt/crane.py" >> "${CRON_CONFIG_FILE}"
+
+exec supercronic -passthrough-logs -quiet "${CRON_CONFIG_FILE}"
