@@ -2,7 +2,7 @@ import unittest
 import requests
 import json
 from tomllib import load
-from cclient import c_get_filtered_containers, c_start_container, c_stop_container, c_get_filtered_containers
+from cclient import c_get_filtered_containers, c_start_container, c_stop_container
 from cprocess import process_cont_list
 # unittest.TestLoader.sortTestMethodsUsing = None
 
@@ -17,7 +17,7 @@ class TestCrane(unittest.TestCase):
         self.cid = 'ef8fee86e02b2b82acbddf6f0da1ff023f60bfe52c0b4087cac29c1686ccbac4'
         self.req_obj = requests
         self.j_obj = json
-        self.hypercare_containers = ['restic','qbittorrent']
+        self.hypercare_containers = ['hello-world']
         self.status_filters = ["paused","dead","created","exited","removing","restarting","created"]
         self.cont_obj = c_get_filtered_containers(self.req_obj,self.j_obj, self.host, self.port, self.access_token, self.endpoint,self.hypercare_containers,self.status_filters)
 

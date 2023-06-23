@@ -16,3 +16,17 @@ steps:
   when:
     branch:
       - main
+- name: docker-test
+  image: plugins/docker
+  settings:
+    registry: git.jbranan.com
+    dry_run: false
+    username: jblu
+    password: 
+      from_secret: gittea_drone
+    repo: git.jbranan.com/jblu/crane
+    tags:
+    - dev
+  when:
+    branch:
+      - dev*

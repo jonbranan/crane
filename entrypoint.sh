@@ -1,5 +1,7 @@
 #!/bin/sh
 
-printenv | grep -v "no_proxy" >> /etc/environment
+CRON_CONFIG_FILE="/opt/crontab"
 
-crond -f
+echo "${CRON} python /opt/crane.py" > $CRON_CONFIG_FILE
+
+exec supercronic -passthrough-logs -quiet $CRON_CONFIG_FILE
