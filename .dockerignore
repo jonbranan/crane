@@ -3,7 +3,6 @@ LICENSE
 *.log
 README.md
 requirements.txt
-test_*
 Dockerfile
 *docker-test*
 *.log
