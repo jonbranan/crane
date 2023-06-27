@@ -1,6 +1,5 @@
 kind: pipeline
 name: default
-
 steps:
 - name: docker
   image: plugins/docker
@@ -27,6 +26,40 @@ steps:
     repo: git.jbranan.com/jblu/crane
     tags:
     - dev
+  when:
+    branch:
+      - dev*
+- name: test-main
+  image: git.jbranan.com/jblu/crane:latest
+  environment:
+    CRANE_HOST:
+      from_secret: CRANE_HOST
+    CRANE_PORT:
+      from_secret: CRANE_PORT
+    CRANE_ENDPOINT:
+      from_secret: CRANE_ENDPOINT
+  commands:
+  - echo $CRANE_HOST
+  - echo $CRANE_PORT
+  - echo $CRANE_ENDPOINT
+  - python test_crane.py
+  when:
+    branch:
+      - main
+- name: test-dev
+  image: git.jbranan.com/jblu/crane:dev
+  environment:
+    CRANE_HOST:
+      from_secret: CRANE_HOST
+    CRANE_PORT:
+      from_secret: CRANE_PORT
+    CRANE_ENDPOINT:
+      from_secret: CRANE_ENDPOINT
+  commands:
+  - echo $CRANE_HOST
+  - echo $CRANE_PORT
+  - echo $CRANE_ENDPOINT
+  - python test_crane.py
   when:
     branch:
       - dev*

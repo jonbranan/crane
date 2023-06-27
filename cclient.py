@@ -9,6 +9,15 @@ def c_get_filtered_containers(req_obj, j_obj, host, port, access_token, endpoint
     c_get_containers_response = req_obj.get(url, headers={"X-API-Key": access_token}, verify=False)
     return c_get_containers_response.json()
 
+def c_get_container_id(req_obj, j_obj, host, port, access_token, endpoint, containers, statuses):
+    statuses.append("running")
+    filter_string = j_obj.dumps({"name":containers,"status":statuses})
+    url = f'https://{host}:{port}/api/endpoints/{endpoint}/docker/containers/json?filters={filter_string}'
+    c_get_container_id_response = req_obj.get(url, headers={"X-API-Key": access_token}, verify=False)
+    id = c_get_container_id_response.json()
+    id = id[0]["Id"]
+    return id
+
 def c_start_container(req_obj, host, port, access_token, endpoint, cid):
     url = f'https://{host}:{port}/api/endpoints/{endpoint}/docker/containers/{cid}/start'
     c_start_container_response = req_obj.post(url, headers={"X-API-Key": access_token},verify=False)
