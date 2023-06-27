@@ -15,6 +15,9 @@ steps:
   when:
     branch:
       - main
+    event:
+      - push
+      - pull_request
 - name: docker-test
   image: plugins/docker
   settings:
@@ -29,6 +32,9 @@ steps:
   when:
     branch:
       - dev*
+    event:
+      - push
+      - pull_request
 - name: test-main
   image: git.jbranan.com/jblu/crane:latest
   environment:
@@ -46,6 +52,9 @@ steps:
   when:
     branch:
       - main
+    event:
+      - push
+      - pull_request
 - name: test-dev
   image: git.jbranan.com/jblu/crane:dev
   environment:
@@ -63,3 +72,6 @@ steps:
   when:
     branch:
       - dev*
+    event:
+      - push
+      - pull_request
