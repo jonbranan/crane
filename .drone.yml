@@ -4,12 +4,12 @@ steps:
 - name: docker
   image: plugins/docker
   settings:
-    registry: git.jbranan.com
+    registry: git.jonb.io
     dry_run: false
     username: jblu
     password: 
       from_secret: gittea_drone
-    repo: git.jbranan.com/jblu/crane
+    repo: git.jonb.io/jblu/crane
     tags:
     - latest
   when:
@@ -21,12 +21,12 @@ steps:
 - name: docker-test
   image: plugins/docker
   settings:
-    registry: git.jbranan.com
+    registry: git.jonb.io
     dry_run: false
     username: jblu
     password: 
       from_secret: gittea_drone
-    repo: git.jbranan.com/jblu/crane
+    repo: git.jonb.io/jblu/crane
     tags:
     - dev
   when:
@@ -36,7 +36,7 @@ steps:
       - push
       - pull_request
 - name: test-main
-  image: git.jbranan.com/jblu/crane:latest
+  image: git.jonb.io/jblu/crane:latest
   environment:
     CRANE_HOST:
       from_secret: CRANE_HOST
@@ -56,7 +56,7 @@ steps:
       - push
       - pull_request
 - name: test-dev
-  image: git.jbranan.com/jblu/crane:dev
+  image: git.jonb.io/jblu/crane:dev
   environment:
     CRANE_HOST:
       from_secret: CRANE_HOST
