@@ -62,6 +62,8 @@ class Crn:
         cont_log(self)
         cont_notify(self)
         self.t = time
+        if self.use_healthcheck:
+            send_ping(self, requests, self.healthcheck_url.rstrip("/") + "/start")
 
         #logging in
         try:
